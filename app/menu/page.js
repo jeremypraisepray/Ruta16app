@@ -13,15 +13,17 @@ export default function MenuPage() {
     <>
       <SiteNav />
 
-      <header className="menuHead">
-        <div className="menuHead__eyebrow">MARISCOS · SINALOA STYLE · Y MÁS</div>
-        <h1 className="menuHead__title">EL MENÚ</h1>
-        <p className="menuHead__sub">
-          Ocho paradas en la ruta del sabor. Elige tu parada — o recorre la ruta completa.
-        </p>
-      </header>
-
-      <MenuBoard />
+      <MenuBoard
+        header={
+          <>
+            <div className="menuHead__eyebrow">MARISCOS · SINALOA STYLE · Y MÁS</div>
+            <h1 className="menuHead__title">EL MENÚ</h1>
+            <p className="menuHead__sub">
+              Ocho paradas en la ruta del sabor. Elige tu parada — o recorre la ruta completa.
+            </p>
+          </>
+        }
+      />
 
       <div className="menuNote">
         <div className="menuNote__tag">GRACIAS POR VIAJAR LA RUTA DEL SABOR</div>

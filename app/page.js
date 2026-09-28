@@ -3,6 +3,7 @@ import SiteNav from '@/components/SiteNav';
 import SiteFooter from '@/components/SiteFooter';
 import SpecialsStrip from '@/components/SpecialsStrip';
 import Cutout from '@/components/Cutout';
+import { priceOf } from '@/data/menuLookup';
 import {
   ORDER_URL,
   ADDRESS_LINE_1,
@@ -29,31 +30,31 @@ const PARADAS = [
 const TOP_SELLERS = [
   {
     name: 'TORRE 16',
-    price: '$29',
-    img: '/media/torre-mariscos.webp',
+    item: 'Torre 16',
+    img: '/images/dishes/torre-16.webp',
     ring: 'red',
     desc: 'Mixed ceviche, scallops, boiled shrimp, 6 aguachiles — dipped in culichi sauce.',
   },
   {
     name: 'LA CHAPARRA',
-    price: '$29',
-    img: '/media/molcajete-aguachile.webp',
+    item: 'La Chaparra',
+    img: '/images/dishes/chaparra.webp',
     ring: 'blue',
     desc: 'Molcajete bowl: seafood tower, green mussels, avocado, culichi sauce.',
   },
   {
     name: 'OSTIONES R16',
-    price: '$16',
-    img: '/media/ostiones-r16.webp',
+    item: 'Ostiones R16',
+    img: '/images/dishes/ostiones-r16.webp',
     ring: 'red',
     desc: 'Grilled oysters — bacon, chorizo, mozzarella, jalapeño, camarada sauce.',
   },
   {
-    name: 'ZARANDEADO',
-    price: '$MP',
-    img: '/media/pescado-zarandeado.webp',
+    name: 'PIÑA LA MALECONA',
+    item: 'Piña La Malecona',
+    img: '/images/dishes/pina-malecona.webp',
     ring: 'blue',
-    desc: 'Whole fish from the open-fire grill, secret sauce, fried rice, house salad.',
+    desc: 'Pineapple stuffed with mixed ceviche — fish, shrimp, octopus, red onion.',
   },
 ];
 
@@ -169,18 +170,15 @@ export default function HomePage() {
         <div className="hero__ghost" aria-hidden="true">
           16
         </div>
-        <Cutout
-          className="hero__dish"
-          src="/images/dishes/parrillada-barco.webp"
-          alt="Parrillada en barco"
-          priority
-        />
         <div className="hero__content">
           <div className="hero__eyebrow">MARISCOS · SINALOA STYLE · Y MÁS</div>
           <h1 className="hero__title">
-            LA RUTA
-            <br />
-            DEL SABOR
+            <span className="hero__line">
+              <span>LA RUTA</span>
+            </span>
+            <span className="hero__line">
+              <span>DEL SABOR</span>
+            </span>
           </h1>
           <p className="hero__copy">
             Aguachiles, torres y zarandeados del asador — servidos como en Culiacán, aquí en Pasadena,
@@ -205,8 +203,14 @@ export default function HomePage() {
       <div className="chevronBar" aria-hidden="true" />
 
       <nav className="paradaRail" aria-label="Las ocho paradas">
-        {PARADAS.map((p) => (
-          <Link key={p.num} href="/menu" className="paradaRail__stop">
+        {PARADAS.map((p, i) => (
+          <Link
+            key={p.num}
+            href="/menu"
+            className="paradaRail__stop"
+            data-reveal
+            style={{ '--d': `${i * 70}ms` }}
+          >
             <div className={`ring paradaRail__num${p.ring === 'blue' ? ' ring--blue' : ''}`}>
               {p.num}
             </div>
@@ -217,9 +221,9 @@ export default function HomePage() {
       </nav>
 
       <section className="section sellers">
-        <div className="sellers__head">
+        <div className="sellers__head" data-reveal>
           <div className="sellers__headL">
-            <div className="eyebrow eyebrow--blue">PARADA 02 · ZONA CULICHI</div>
+            <div className="eyebrow eyebrow--blue">LOS QUE VUELAN DE LA COCINA</div>
             <h2 className="sellers__title">TOP SELLERS</h2>
           </div>
           <p className="sellers__intro">
@@ -228,18 +232,25 @@ export default function HomePage() {
         </div>
 
         <div className="sellers__grid">
-          {TOP_SELLERS.map((t) => (
-            <article key={t.name} className="seller">
-              <div className={`seller__frame${t.ring === 'blue' ? ' seller__frame--blue' : ''}`}>
-                <img src={t.img} alt={t.name} loading="lazy" />
+          {TOP_SELLERS.map((t, i) => (
+            <Link
+              key={t.name}
+              href="/menu"
+              className={`seller${t.ring === 'blue' ? ' seller--blue' : ''}`}
+              data-reveal
+              style={{ '--d': `${i * 110}ms` }}
+            >
+              <div className="seller__stage">
+                <span className="seller__ring" aria-hidden="true" />
+                <Cutout className="seller__dish" src={t.img} alt={t.name} box={[300, 260]} />
               </div>
               <div className="seller__row">
                 <div className="seller__name">{t.name}</div>
                 <div className="seller__lead" />
-                <div className="seller__price">{t.price}</div>
+                <div className="seller__price">{priceOf(t.item)}</div>
               </div>
               <p className="seller__desc">{t.desc}</p>
-            </article>
+            </Link>
           ))}
         </div>
       </section>
@@ -247,7 +258,7 @@ export default function HomePage() {
       <section className="platos">
         <div className="dotOverlay" />
         <div className="platos__inner">
-          <div className="platos__head">
+          <div className="platos__head" data-reveal>
             <div className="platos__headL">
               <div className="eyebrow">OCHO PARADAS · UN SOLO VIAJE</div>
               <h2 className="platos__title">PLATOS DE LA RUTA</h2>
@@ -258,12 +269,13 @@ export default function HomePage() {
           </div>
 
           <div className="platos__grid">
-            {PLATOS.map((d) => (
+            {PLATOS.map((d, i) => (
               <Link
                 key={d.name}
                 href="/menu"
                 className="dishCard dishCard--plato"
-                style={{ '--accent': d.accent }}
+                data-reveal
+                style={{ '--accent': d.accent, '--d': `${(i % 3) * 110}ms` }}
               >
                 <div className="dishCard__plate" style={{ background: plateGlow(d.accent) }}>
                   <Cutout src={d.img} alt={d.name} box={[270, 230]} />
@@ -285,7 +297,7 @@ export default function HomePage() {
       </section>
 
       <section className="barra">
-        <div className="barra__head">
+        <div className="barra__head" data-reveal>
           <div className="eyebrow eyebrow--blue">PARADA 08 · ÚLTIMA PARADA</div>
           <h2 className="barra__title">LA BARRA</h2>
           <p className="barra__copy">
@@ -303,9 +315,9 @@ export default function HomePage() {
 
       <section className="patio">
         <div className="patio__media">
-          <img src="/media/patio.webp" alt="El patio" loading="lazy" />
+          <img src="/media/michelada-patron.webp" alt="Michelada preparada en el patio" loading="lazy" />
         </div>
-        <div className="patio__body">
+        <div className="patio__body" data-reveal>
           <Cutout className="patio__art" src="/images/drinks/michelada.webp" />
           <div className="eyebrow">EL PATIO · PASADENA, TX</div>
           <h2 className="patio__title">
@@ -335,10 +347,17 @@ export default function HomePage() {
       </section>
 
       <section className="section reviews">
-        <h2 className="reviews__title">DICEN EN LA RUTA</h2>
+        <h2 className="reviews__title" data-reveal>
+          DICEN EN LA RUTA
+        </h2>
         <div className="reviews__grid">
-          {REVIEWS.map((r) => (
-            <blockquote key={r.name} className="review">
+          {REVIEWS.map((r, i) => (
+            <blockquote
+              key={r.name}
+              className="review"
+              data-reveal
+              style={{ '--d': `${i * 110}ms` }}
+            >
               <div className="review__stars" aria-label="5 de 5 estrellas">
                 ★★★★★
               </div>

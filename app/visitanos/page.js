@@ -64,14 +64,14 @@ export default function VisitanosPage() {
 
       <section className="visit">
         <div className="visit__media">
-          <img src="/media/patio.webp" alt="El patio de Ruta 16" />
+          <img src="/media/michelada-patron.webp" alt="Michelada preparada en el patio de Ruta 16" />
           <div className="visit__caption">
             <div className="visit__captionTitle">EL PATIO</div>
             <div className="visit__captionText">La ruta del sabor, al aire libre.</div>
           </div>
         </div>
 
-        <div className="visit__panel">
+        <div className="visit__panel" data-reveal>
           <div className="visit__block">
             <div className="visit__label">DIRECCIÓN</div>
             <a className="visit__address" href={MAPS_URL} target="_blank" rel="noopener noreferrer">
@@ -107,8 +107,13 @@ export default function VisitanosPage() {
 
       <section className="zona">
         <div className="llevar">
-          {LLEVAR.map((l) => (
-            <article key={l.name} className="llevar__card" style={{ '--accent': l.accent }}>
+          {LLEVAR.map((l, i) => (
+            <article
+              key={l.name}
+              className="llevar__card"
+              data-reveal
+              style={{ '--accent': l.accent, '--d': `${i * 110}ms` }}
+            >
               <div className="llevar__plate" style={{ background: plateGlow(l.accent, '50% 52%') }}>
                 <Cutout src={l.img} alt={l.name} box={[210, 170]} />
               </div>
@@ -119,7 +124,7 @@ export default function VisitanosPage() {
             </article>
           ))}
         </div>
-        <div className="zona__eyebrow">PIDE PA&apos; LLEVAR · TOAST ONLINE</div>
+        <div className="zona__eyebrow" data-reveal>PIDE PA&apos; LLEVAR · TOAST ONLINE</div>
         <h2 className="zona__title">SERVIMOS TODA LA ZONA</h2>
         <div className="zona__chips">
           {SERVICE_AREAS.map((a) => (

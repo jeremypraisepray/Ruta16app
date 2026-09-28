@@ -58,13 +58,13 @@ const COCINA = [
 ];
 
 const POSTALES = [
-  { src: '/media/molcajete-aguachile.webp', alt: 'Molcajete aguachile' },
-  { src: '/media/ostiones-r16.webp', alt: 'Ostiones R16' },
-  { src: '/media/lobster.webp', alt: 'Lobster' },
-  { src: '/media/michelada.webp', alt: 'Michelada' },
-  { src: '/media/parrillada-barco.webp', alt: 'Parrillada en barco' },
-  { src: '/media/pescado-zarandeado.webp', alt: 'Pescado zarandeado' },
-  { src: '/media/camarones-fritos.webp', alt: 'Camarones fritos' },
+  { src: '/media/parrillada-mixta-barco.webp', alt: 'Parrillada mixta en barco' },
+  { src: '/media/patio-letrero.webp', alt: 'El patio y el letrero de Ruta 16' },
+  { src: '/media/pescado-mariscos.webp', alt: 'Pescado entero con mariscos' },
+  { src: '/media/parrillada-marina-barco.webp', alt: 'Parrillada marina en barco' },
+  { src: '/media/mariscos-empanizados.webp', alt: 'Mariscos empanizados con papas' },
+  { src: '/media/langosta.webp', alt: 'Langosta' },
+  { src: '/media/parrillada-comal.webp', alt: 'Parrillada en comal' },
   { src: '/media/micheladas-pina.webp', alt: 'Micheladas y piña colada' },
 ];
 
@@ -102,7 +102,7 @@ export default function NosotrosPage() {
         </div>
       </header>
 
-      <section className="story">
+      <section className="story" data-reveal>
         <div className="story__text">
           <h2 className="story__title">
             LA RUTA EMPIEZA
@@ -120,14 +120,14 @@ export default function NosotrosPage() {
           </p>
         </div>
         <div className="story__media">
-          <img src="/media/torre-mariscos.webp" alt="Torre de mariscos" loading="lazy" />
+          <img src="/media/ostiones-gratinados.webp" alt="Ostiones gratinados con jalapeño" loading="lazy" />
           <div className="story__frame" aria-hidden="true" />
         </div>
       </section>
 
       <section className="pillars">
-        {PILLARS.map((p) => (
-          <article key={p.num} className="pillar">
+        {PILLARS.map((p, i) => (
+          <article key={p.num} className="pillar" data-reveal style={{ '--d': `${i * 110}ms` }}>
             <div className="pillar__num" style={{ color: p.color }}>
               {p.num}
             </div>
@@ -140,14 +140,19 @@ export default function NosotrosPage() {
       <section className="cocina">
         <div className="dotOverlay" />
         <div className="cocina__inner">
-          <div className="eyebrow">DE LA COCINA A LA MESA</div>
-          <h2 className="cocina__title">LO QUE SALE DEL PASE</h2>
+          <div className="eyebrow" data-reveal>
+            DE LA COCINA A LA MESA
+          </div>
+          <h2 className="cocina__title" data-reveal>
+            LO QUE SALE DEL PASE
+          </h2>
           <div className="cocina__grid">
-            {COCINA.map((c) => (
+            {COCINA.map((c, i) => (
               <article
                 key={c.name}
                 className="dishCard dishCard--cocina"
-                style={{ '--accent': c.accent }}
+                data-reveal
+                style={{ '--accent': c.accent, '--d': `${i * 100}ms` }}
               >
                 <div className="dishCard__plate" style={{ background: plateGlow(c.accent) }}>
                   <Cutout src={c.img} alt={c.name} box={[250, 210]} />
@@ -161,7 +166,7 @@ export default function NosotrosPage() {
       </section>
 
       <section className="postales">
-        <div className="postales__head">
+        <div className="postales__head" data-reveal>
           <h2 className="postales__title">POSTALES DE LA RUTA</h2>
           <a
             className="postales__handle"
@@ -173,13 +178,20 @@ export default function NosotrosPage() {
           </a>
         </div>
         <div className="postales__grid">
-          {POSTALES.map((p) => (
-            <img key={p.src} src={p.src} alt={p.alt} loading="lazy" />
+          {POSTALES.map((p, i) => (
+            <img
+              key={p.src}
+              src={p.src}
+              alt={p.alt}
+              loading="lazy"
+              data-reveal
+              style={{ '--d': `${(i % 4) * 90}ms` }}
+            />
           ))}
         </div>
       </section>
 
-      <section className="closer">
+      <section className="closer" data-reveal>
         <h2 className="closer__title">VEN A RECORRER LA RUTA</h2>
         <div className="closer__actions">
           <Link href="/menu" className="btn btn--fill btn--md">

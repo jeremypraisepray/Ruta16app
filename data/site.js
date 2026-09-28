@@ -1,3 +1,12 @@
+/**
+ * Canonical origin for metadata, sitemap and social previews. On Vercel this is
+ * the production domain (the custom domain once one is attached); locally it
+ * falls back to the restaurant's domain.
+ */
+export const SITE_URL = process.env.VERCEL_PROJECT_PRODUCTION_URL
+  ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+  : 'https://ruta16.com';
+
 export const ORDER_URL =
   'https://www.toasttab.com/local/order/mariscos-ruta-16-y-mas-12810-suit-b-gulf-fwy';
 export const MAPS_URL = 'https://maps.google.com/?q=2726+Spencer+Hwy,+Pasadena,+TX+77504';

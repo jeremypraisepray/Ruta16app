@@ -21,7 +21,7 @@ npm run build    # static export → out/
 | Route        | Source                  | Notes |
 | ------------ | ----------------------- | ----- |
 | `/`          | `app/page.js`           | Video hero, parada rail, top sellers, *Platos de la Ruta*, *La Barra* marquee, specials, patio, reviews |
-| `/menu`      | `app/menu/page.js`      | Interactive — client-side parada filter, per-parada art and *Plato destacado* |
+| `/menu`      | `app/menu/page.js`      | Opens on *La Ruta Completa* (route map), then the filterable listings, per-parada art and *Plato destacado* |
 | `/nosotros`  | `app/nosotros/page.js`  | Video hero, story, pillars, *Lo que sale del pase*, postales grid |
 | `/visitanos` | `app/visitanos/page.js` | Address / contact / horario, specials, *Pide pa' llevar*, service areas |
 
@@ -38,6 +38,18 @@ the filter to the next parada.
 
 Shared facts (hours, socials, service areas, specials, order/maps URLs) live in `data/site.js`.
 
+Nothing outside the listings hardcodes a price: the home Top Sellers, each parada's *Plato
+destacado* and the route map read them through `data/menuLookup.js` (`priceOf`, `paradaStats`),
+so a price change in `menu.json` shows up everywhere. Per-parada art lives in `data/menuArt.js`.
+
+### La Ruta Completa
+
+The menu opens on a road map (`components/RouteMap.js`): a highway with one stop per parada, each
+showing its dish, dish count and lowest price. The road draws itself, then the Ruta 16 shield
+drives it and each stop pulses as it passes. Clicking a stop filters to that parada and scrolls to
+the listings (`window.scrollTo`, as before). Below 900px it becomes a vertical road. Stop positions
+and the road are computed from one set of points, so they always line up.
+
 ## Design system
 
 Tokens are CSS custom properties at the top of `app/globals.css`:
@@ -51,6 +63,18 @@ Signature motifs are implemented as reusable classes: `.barSplit` (6px red/blue 
 `.ring` (dashed-ring circles, alternating red/blue), `.dotLeader` (dotted leader lines),
 `.hero__ghost` / `.parada__ghost` (giant ghost numerals), `.hero__dots` (dot-grid overlay),
 `.hero__rail` (vertical rail text).
+
+## Motion
+
+- **Reveal on scroll** — any element with `data-reveal` fades up as it enters the viewport
+  (`components/RevealObserver.js`, one observer in the root layout; `--d` staggers siblings). It
+  animates the `translate` property so it never fights hover `transform`s, and content is only
+  hidden once an inline `<head>` script has marked `<html class="js">` — without JavaScript
+  everything is simply visible.
+- **Home hero** — the headline lines rise out of a clip, eyebrow/copy/buttons follow, the ghost
+  "16" drifts up.
+- **Top Sellers** — the dashed ring turns like a wheel on hover while the dish lifts.
+- All of it switches off under `prefers-reduced-motion`.
 
 ## Assets
 
@@ -72,6 +96,12 @@ All assets are self-hosted under `public/`.
   `bucket-tecate`, `bucket-victoria`). `components/Cutout.js` renders them; `data/cutouts.json` carries each file's
   intrinsic size so lazy loading reserves the right box, and the component releases whichever axis
   the CSS does not constrain so the aspect ratio is never squashed.
+- **Photos** — the original ten are small (287–680px) and were named from the design bundle's
+  notes, which had them mixed up (the file called `patio` was a michelada, `ostiones-r16` was the
+  patio). They are renamed to what they actually show, with matching alt text.
+- **Social preview** — `public/og.jpg` (1200×630), rendered from the site's own fonts and art.
+  `app/sitemap.js` and `app/robots.js` emit `sitemap.xml` / `robots.txt`; URLs use the Vercel
+  production domain (`SITE_URL` in `data/site.js`).
 - **Logo** — `public/brand/ruta16-logo.png`, the official artwork extracted from the client's
   `LOGO_RUTA_16` PDF (a 406×587 raster with an alpha mask, lifted off the PDF's white page so it sits
   transparent on the navy nav). `public/brand/ruta16-icon.png` is the same mark on a navy square,
