@@ -24,6 +24,34 @@ npm run build    # static export → out/
 | `/menu`      | `app/menu/page.js`      | Opens on *La Ruta Completa* (route map), then the filterable listings, per-parada art and *Plato destacado* |
 | `/nosotros`  | `app/nosotros/page.js`  | Video hero, story, pillars, *Lo que sale del pase*, postales grid |
 | `/visitanos` | `app/visitanos/page.js` | Address / contact / horario, specials, *Pide pa' llevar*, service areas |
+| `/app/…`     | `app/app/`              | *Mi Ruta* loyalty app — see below |
+
+## Mi Ruta — loyalty app (`/app`)
+
+A mobile-first loyalty app living beside the site: **/app** (Inicio), **/app/menu**, **/app/rewards**.
+It reuses the site's tokens, fonts, cut-outs, `menu.json` and Toast `ORDER_URL`; styles are in
+`app/app/loyalty.css`, every class prefixed `mr-` so nothing leaks into the marketing pages.
+It is `noindex` and not linked from the site nav while it runs on demo data.
+
+**It is a demo until a points API exists.** Accounts, balances and claims are fictional
+(`data/loyalty/demo.js`), claims persist only in the browser's localStorage, and the UI says so
+(a *MODO DEMO* note, a "DEMO" tag on the member card, demo codes flagged in the claim sheet).
+
+| What to change | Where |
+| --- | --- |
+| Rewards — title, cost, tier, image, terms, availability, expiry, code validity | `data/loyalty/rewards.js` (**sample values, not approved offers**) |
+| Program copy, points-per-dollar, whether online orders earn, member levels | `data/loyalty/program.js` |
+| Promotions (e.g. "2X PUNTOS HOY") | `data/loyalty/promotions.js` — `POINT_PROMOTIONS` ships empty on purpose; the real weekly specials from `data/site.js` show on their day |
+| Dish photos and badges in the app menu | `data/loyalty/menuMedia.js` (only unambiguous photos are mapped; the rest render as menu rows) |
+| Connecting a real backend | `lib/loyalty/service.js` — implement `getAccount`, `getRewards`, `getPromotions`, `redeem` against the POS/points API and swap the export. No component changes needed. |
+
+Pieces worth knowing: `components/loyalty/RutaRoad.js` (the signature progress road — rewards are
+evenly spaced paradas and the shield drives forward as points count up), `Opening.js` (the
+~2s entrance, once per session; tap or Esc skips, reduced motion shows the end state),
+`RewardClaimSheet.js` (confirm → stamp → code), `Sheet.js` (native `<dialog>` bottom sheet), and
+`lib/loyalty/progress.js` (pure ladder / next-reward / nudge math). The member card's QR is a
+labelled placeholder that encodes nothing. Use the member card sheet to switch the demo between a
+regular (420 pts) and a brand-new member (0 pts).
 
 ## Menu data
 

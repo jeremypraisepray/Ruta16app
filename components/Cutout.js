@@ -11,7 +11,7 @@ import dims from '@/data/cutouts.json';
  *   - `box`  the [width, height] limit the CSS puts on this image
  *   - `fit`  'width' (default — CSS pins the width) or 'height'
  */
-export default function Cutout({ src, alt = '', className, style, priority = false, box, fit }) {
+export default function Cutout({ src, alt = '', className, style, priority = false, box, fit, onError }) {
   const key = src.replace('/images/', '').replace('.webp', '');
   const [w, h] = dims[key] || [];
 
@@ -32,6 +32,7 @@ export default function Cutout({ src, alt = '', className, style, priority = fal
       height={h}
       loading={priority ? undefined : 'lazy'}
       decoding="async"
+      onError={onError}
     />
   );
 }

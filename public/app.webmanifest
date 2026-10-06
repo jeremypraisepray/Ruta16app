@@ -1,0 +1,11 @@
+{
+  "name": "Mi Ruta — Mariscos Ruta 16 y Más",
+  "short_name": "Mi Ruta",
+  "description": "Come. Gana. Regresa.",
+  "start_url": "/app/",
+  "scope": "/app/",
+  "display": "standalone",
+  "background_color": "#0e1119",
+  "theme_color": "#0e1119",
+  "icons": [{ "src": "/brand/ruta16-icon.png", "sizes": "512x512", "type": "image/png" }]
+}
