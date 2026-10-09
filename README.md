@@ -45,6 +45,15 @@ It is `noindex` and not linked from the site nav while it runs on demo data.
 | Dish photos and badges in the app menu | `data/loyalty/menuMedia.js` (only unambiguous photos are mapped; the rest render as menu rows) |
 | Connecting a real backend | `lib/loyalty/service.js` — implement `getAccount`, `getRewards`, `getPromotions`, `redeem` against the POS/points API and swap the export. No component changes needed. |
 
+**Sharing it with testers.** Deploy as usual (Vercel builds every pushed branch as a preview), then
+send the `/app/` link. On a phone, *Share → Add to Home Screen* (iOS Safari) or *Install app* (Android
+Chrome) launches it full-screen with its own icon — `public/app.webmanifest` scopes it to `/app/`.
+Scenario links start a tester fresh, opening animation included:
+
+- `/app/?demo=regular` — a regular with 420 pts, three rewards ready, 80 pts from Torre 16
+- `/app/?demo=nuevo` — a brand-new member at 0 pts
+- `/app/?demo=reset` — back to the regular with any demo claims cleared
+
 Pieces worth knowing: `components/loyalty/RutaRoad.js` (the signature progress road — rewards are
 evenly spaced paradas and the shield drives forward as points count up), `Opening.js` (the
 ~2s entrance, once per session; tap or Esc skips, reduced motion shows the end state),
